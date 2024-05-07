@@ -2,15 +2,15 @@ package main
 
 import (
 	"employeeApp/api"
-	employee2 "employeeApp/repository/employee"
-	"employeeApp/service/employee"
+	employeeRepo "employeeApp/repository/employee"
+	employeeService "employeeApp/service/employee"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	r := gin.Default()
-	repo := employee2.NewInMemoryEmployeeRepository()
-	empService := employee.NewEmployeeService(repo)
+	repo := employeeRepo.NewInMemoryEmployeeRepository()
+	empService := employeeService.NewEmployeeService(repo)
 	empHandler := api.NewEmployeeHandler(empService)
 	empV1 := r.Group("/api/v1")
 	{
