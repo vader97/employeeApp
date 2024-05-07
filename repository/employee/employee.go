@@ -3,6 +3,7 @@ package employee
 import (
 	"employeeApp/models/customerrors"
 	"employeeApp/models/employee"
+	"net/http"
 	"sync"
 )
 
@@ -24,8 +25,9 @@ func (repo *InMemoryEmployeeRepository) CreateEmployee(emp *employee.Employee) *
 
 	if _, exists := repo.employees[emp.ID]; exists {
 		errResponse := customerrors.RestErr{
-			Message:   "employee already exists",
-			ErrorCode: "ERR-R001",
+			Message:    alreadyExists,
+			ErrorCode:  "ERR-R001",
+			StatusCode: http.StatusBadRequest,
 		}
 		return &errResponse
 	}
@@ -40,8 +42,9 @@ func (repo *InMemoryEmployeeRepository) GetEmployeeByID(id int) (*employee.Emplo
 	emp, exists := repo.employees[id]
 	if !exists {
 		errResponse := customerrors.RestErr{
-			Message:   "employee not found",
-			ErrorCode: "ERR-R002",
+			Message:    notFound,
+			ErrorCode:  "ERR-R002",
+			StatusCode: http.StatusNotFound,
 		}
 		return nil, &errResponse
 	}
@@ -54,8 +57,9 @@ func (repo *InMemoryEmployeeRepository) UpdateEmployee(emp *employee.Employee) *
 
 	if _, exists := repo.employees[emp.ID]; !exists {
 		errResponse := customerrors.RestErr{
-			Message:   "employee not found",
-			ErrorCode: "ERR-R003",
+			Message:    notFound,
+			ErrorCode:  "ERR-R003",
+			StatusCode: http.StatusNotFound,
 		}
 		return &errResponse
 	}
@@ -69,8 +73,9 @@ func (repo *InMemoryEmployeeRepository) DeleteEmployee(id int) *customerrors.Res
 
 	if _, exists := repo.employees[id]; !exists {
 		errResponse := customerrors.RestErr{
-			Message:   "employee not found",
-			ErrorCode: "ERR-R004",
+			Message:    notFound,
+			ErrorCode:  "ERR-R004",
+			StatusCode: http.StatusNotFound,
 		}
 		return &errResponse
 	}
@@ -92,8 +97,9 @@ func (repo *InMemoryEmployeeRepository) ListEmployees(pageNumber, pageSize int) 
 
 	if start >= len(employees) {
 		errResponse := customerrors.RestErr{
-			Message:   "page number out of range",
-			ErrorCode: "ERR-R005",
+			Message:    incorrectPagination,
+			ErrorCode:  "ERR-R005",
+			StatusCode: http.StatusInternalServerError,
 		}
 		return nil, &errResponse
 	}
