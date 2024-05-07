@@ -19,7 +19,7 @@ func NewEmployeeService(repo repository.EmployeeRepository) *EmployeeServiceImpl
 func (s *EmployeeServiceImpl) CreateEmployee(emp *employee.Employee) *customerrors.RestErr {
 	if emp == nil {
 		errResponse := customerrors.RestErr{
-			Message:   "invalid employee data",
+			Message:   invalidData,
 			ErrorCode: "ERR-S001",
 		}
 		return &errResponse
@@ -30,7 +30,7 @@ func (s *EmployeeServiceImpl) CreateEmployee(emp *employee.Employee) *customerro
 func (s *EmployeeServiceImpl) GetEmployeeByID(id int) (*employee.Employee, *customerrors.RestErr) {
 	if id <= 0 {
 		errResponse := customerrors.RestErr{
-			Message:   "invalid employee ID",
+			Message:   invalidId,
 			ErrorCode: "ERR-S002",
 		}
 		return nil, &errResponse
@@ -41,7 +41,7 @@ func (s *EmployeeServiceImpl) GetEmployeeByID(id int) (*employee.Employee, *cust
 func (s *EmployeeServiceImpl) UpdateEmployee(emp *employee.Employee) *customerrors.RestErr {
 	if emp == nil || emp.ID <= 0 {
 		errResponse := customerrors.RestErr{
-			Message:   "invalid employee data",
+			Message:   invalidData,
 			ErrorCode: "ERR-S003",
 		}
 		return &errResponse
@@ -52,7 +52,7 @@ func (s *EmployeeServiceImpl) UpdateEmployee(emp *employee.Employee) *customerro
 func (s *EmployeeServiceImpl) DeleteEmployee(id int) *customerrors.RestErr {
 	if id <= 0 {
 		errResponse := customerrors.RestErr{
-			Message:   "invalid employee ID",
+			Message:   invalidId,
 			ErrorCode: "ERR-S004",
 		}
 		return &errResponse
@@ -63,7 +63,7 @@ func (s *EmployeeServiceImpl) DeleteEmployee(id int) *customerrors.RestErr {
 func (s *EmployeeServiceImpl) ListEmployees(pageNumber, pageSize int) ([]*employee.Employee, *customerrors.RestErr) {
 	if pageNumber <= 0 || pageSize <= 0 {
 		errResponse := customerrors.RestErr{
-			Message:   "invalid page number or page size",
+			Message:   invalidPagination,
 			ErrorCode: "ERR-S005",
 		}
 		return nil, &errResponse

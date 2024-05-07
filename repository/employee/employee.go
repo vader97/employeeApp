@@ -24,7 +24,7 @@ func (repo *InMemoryEmployeeRepository) CreateEmployee(emp *employee.Employee) *
 
 	if _, exists := repo.employees[emp.ID]; exists {
 		errResponse := customerrors.RestErr{
-			Message:   "employee already exists",
+			Message:   alreadyExists,
 			ErrorCode: "ERR-R001",
 		}
 		return &errResponse
@@ -40,7 +40,7 @@ func (repo *InMemoryEmployeeRepository) GetEmployeeByID(id int) (*employee.Emplo
 	emp, exists := repo.employees[id]
 	if !exists {
 		errResponse := customerrors.RestErr{
-			Message:   "employee not found",
+			Message:   notFound,
 			ErrorCode: "ERR-R002",
 		}
 		return nil, &errResponse
@@ -54,7 +54,7 @@ func (repo *InMemoryEmployeeRepository) UpdateEmployee(emp *employee.Employee) *
 
 	if _, exists := repo.employees[emp.ID]; !exists {
 		errResponse := customerrors.RestErr{
-			Message:   "employee not found",
+			Message:   notFound,
 			ErrorCode: "ERR-R003",
 		}
 		return &errResponse
@@ -69,7 +69,7 @@ func (repo *InMemoryEmployeeRepository) DeleteEmployee(id int) *customerrors.Res
 
 	if _, exists := repo.employees[id]; !exists {
 		errResponse := customerrors.RestErr{
-			Message:   "employee not found",
+			Message:   notFound,
 			ErrorCode: "ERR-R004",
 		}
 		return &errResponse
@@ -92,7 +92,7 @@ func (repo *InMemoryEmployeeRepository) ListEmployees(pageNumber, pageSize int) 
 
 	if start >= len(employees) {
 		errResponse := customerrors.RestErr{
-			Message:   "page number out of range",
+			Message:   incorrectPagination,
 			ErrorCode: "ERR-R005",
 		}
 		return nil, &errResponse
