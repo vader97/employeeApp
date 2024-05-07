@@ -90,9 +90,9 @@ func (repo *InMemoryEmployeeRepository) ListEmployees(pageNumber, pageSize int) 
 	start := (pageNumber - 1) * pageSize
 	end := start + pageSize
 
-	var employees []*employee.Employee
+	employees := make([]*employee.Employee, len(repo.employees))
 	for _, emp := range repo.employees {
-		employees = append(employees, emp)
+		employees[emp.ID-1] = emp
 	}
 
 	if start >= len(employees) {
