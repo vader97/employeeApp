@@ -34,7 +34,7 @@ func (h *EmployeeHandler) GetEmployeeByID(c *gin.Context) {
 
 	emp, rerr := h.service.GetEmployeeByID(id)
 	if rerr != nil {
-		c.JSON(http.StatusNotFound, rerr)
+		c.JSON(rerr.StatusCode, rerr)
 		return
 	}
 
@@ -62,7 +62,7 @@ func (h *EmployeeHandler) CreateEmployee(c *gin.Context) {
 	}
 
 	if err := h.service.CreateEmployee(&emp); err != nil {
-		c.JSON(http.StatusInternalServerError, err)
+		c.JSON(err.StatusCode, err)
 		return
 	}
 
@@ -101,7 +101,7 @@ func (h *EmployeeHandler) UpdateEmployee(c *gin.Context) {
 	emp.ID = id
 
 	if rerr := h.service.UpdateEmployee(&emp); rerr != nil {
-		c.JSON(http.StatusInternalServerError, rerr)
+		c.JSON(rerr.StatusCode, rerr)
 		return
 	}
 
@@ -120,7 +120,7 @@ func (h *EmployeeHandler) DeleteEmployee(c *gin.Context) {
 	}
 
 	if rerr := h.service.DeleteEmployee(id); rerr != nil {
-		c.JSON(http.StatusInternalServerError, rerr)
+		c.JSON(rerr.StatusCode, rerr)
 		return
 	}
 
@@ -151,7 +151,7 @@ func (h *EmployeeHandler) ListEmployees(c *gin.Context) {
 
 	employees, rerr := h.service.ListEmployees(page, size)
 	if rerr != nil {
-		c.JSON(http.StatusInternalServerError, rerr)
+		c.JSON(rerr.StatusCode, rerr)
 		return
 	}
 
